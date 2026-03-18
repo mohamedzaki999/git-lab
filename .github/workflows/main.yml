@@ -11,5 +11,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Gitleaks (Secret Scan)
+      - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
+
+      - name: Fail if demo secret exists
+        run: |
+          if grep -R "SECRET123\|api_key" .; then
+            echo "Demo secret detected"
+            exit 1
+          fi
